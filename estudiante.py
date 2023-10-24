@@ -68,7 +68,22 @@ class Estudiante(Usuario):
             return False
 
     def matricular_en_curso(self, curso: Curso) -> None:
-        self.mis_cursos.append(curso) 
+        contraseña_ingresada = input("Ingrese la contraseña de matriculación del curso: ")
+        
+        if curso in self.mis_cursos:
+            print("El alumno ya está matriculado en este curso.")
+                
+        else:
+            if curso.get_carrera() == self.get_carrera():
+                if contraseña_ingresada == curso.get_contraseña_matriculacion():
+                    self.mis_cursos.append(curso)
+                    print("Matriculación exitosa")
+                            
+                else:
+                    print("ERROR. Contraseña de matriculación incorrecta")
+                                
+            else:
+                print("El alumno no se encuentra inscripto a la carrera a la cual pertenece el curso.")
 
-    def desmatricular_en_curso(curso: Curso) -> None:
-        pass
+    def desmatricular_en_curso(self, curso: Curso) -> None:
+        self.mis_cursos.remove(curso)

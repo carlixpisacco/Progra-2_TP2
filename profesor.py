@@ -66,7 +66,6 @@ class Profesor(Usuario):
 
     #dictar curso
     def dictar_curso(self, curso: Curso) -> None:  
-        self.mis_cursos.append(curso)
         print("El curso se ha agregado con éxito.")
         print("Datos del curso dado de alta:")
         print(f"Nombre:{curso.get_nombre()}")
@@ -75,6 +74,8 @@ class Profesor(Usuario):
         print(f"Código: {curso.get_codigo()}")
         cantidad_archivos=len(curso.archivos)
         print(f"Cantidad de archivos:{cantidad_archivos}")
+        self.mis_cursos.append(curso)
+        
         
 
 

@@ -18,5 +18,4 @@ class Carrera:
     def __str__(self) -> str:
        return f"{self.get_nombre()}"
 
-    def get_cant_materias() -> int:
-        pass
+   
