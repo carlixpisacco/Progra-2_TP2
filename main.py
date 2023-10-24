@@ -7,7 +7,26 @@ from funciones import *
 import os
 from datetime import datetime
 
+def desmatricular_alumno(estudiante):
+    if len(estudiante.mis_cursos)==0:
+        print("Todavía no posee cursos matriculados.")
+        return
 
+    while True:
+        for indice, curso in enumerate(estudiante.mis_cursos, 1):
+            print(f"{indice} {curso}")
+
+        opt = input("\nIngrese el curso: ")
+        if opt.isnumeric():
+            opt=int(opt)
+            if opt<=len(estudiante.mis_cursos):
+                estudiante.mis_cursos.remove(estudiante.mis_cursos[opt-1])
+                print("Se ha registrado correctamente su desmatriculación")
+                break
+            else:
+                print("Opción no válida. Por favor, seleccione una opción válida.")
+        else:
+            print("Opción no válida. Ingrese una opción numérica")
 
 carrera = Carrera("Tecnicatura en Programación Web", 2)
 carreras = [carrera]
@@ -69,15 +88,15 @@ while respuesta != "salir":
                                                 opt_curso_matricular = int(opt_curso_matricular)
                                                 if 1 <= opt_curso_matricular <= len(cursos_disponibles):
                                                     curso_elegido = cursos_disponibles[opt_curso_matricular - 1]
-                                                    contraseña_matriculacion = input("Ingrese la contraseña de matriculación del curso: ")
+                                                    contraseña_ingresada = input("Ingrese la contraseña de matriculación del curso: ")
                                                     if curso_elegido in estudiante.mis_cursos:
                                                         print("El alumno ya está matriculado en este curso.")
                                                         continuar = False
                                                     else:
-                                                        if curso_elegido.get_carrera() == estudiante.get_carrera():
-                                                            if contraseña_matriculacion == curso_elegido.get_contraseña_matriculacion():
-                                                                
+                                                        if curso_elegido.get_carrera() != estudiante.get_carrera():
+                                                            if contraseña_ingresada == curso_elegido.get_contraseña_matriculacion():
                                                                 print("Matriculación exitosa")
+                                                                estudiante.mis_cursos.append(curso)
                                                                 continuar=False
                                                             else:
                                                                 print("ERROR. Contraseña de matriculación incorrecta")
@@ -91,9 +110,27 @@ while respuesta != "salir":
                                                 print("ERROR. Ingrese una opción numérica")
 
                             elif int(opt_alumno) == 2:
+                                desmatricular_alumno(estudiante)
                                 pass
                             elif int(opt_alumno) == 3:
-                                pass
+                                while True:
+                                    for indice, curso in enumerate(estudiante.mis_cursos, 1):
+                                        print(f"{indice} {curso}")
+                                        
+                                        opt = input("\nIngrese el curso:")
+                                        
+                                        if opt.isnumeric():
+                                            opt=int(opt)
+                                            if opt<=len(estudiante.mis_cursos):
+                                                print(f"{(estudiante.mis_cursos[opt-1])}")
+                                                for i in curso.archivos:
+                                                    print(f"Nombre de archivo: {i._nombre} {i._formato} Fecha: {i._fecha}")
+                                            else:
+                                                print("Opción no válida. Por favor, seleccione una opción válida.")
+                                        else:
+                                            print("Opción no válida. Ingrese una opción numérica")
+                                        
+                                        break    
                             elif int(opt_alumno) == 4:
                                 respuesta_alumno = "salir"
                             else:
