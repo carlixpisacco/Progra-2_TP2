@@ -67,9 +67,7 @@ while respuesta != "salir":
             contraseña = input("Ingrese su contraseña: ")
             profesor = buscar_profesor_email(email, profesores)
             if profesor == None:
-                print(
-                    "Profesor/a no encontrado/a en la base de datos. Debe darse de alta en alumnado"
-                )
+                alta_profesor(profesores)
             else:
                 if profesor.validar_credenciales(contraseña):
                     while respuesta_profesor != "salir":

@@ -2,6 +2,7 @@ from datetime import datetime
 from curso import Curso
 from carrera import Carrera
 from archivo import Archivo
+from profesor import Profesor
 
 carrera = Carrera("Tecnicatura en Programación Web", 2)
 carreras = [carrera]
@@ -44,6 +45,36 @@ def buscar_profesor_email(email, profesores):
             return profesor
     return None
 
+def alta_profesor (profesores):
+    print("Profesor/a no encontrado/a en la base de datos. ¿Desea darse de alta en el sistema?")
+    opt_alta_profesor = input("Presione 1 si desea darse de alta en el sistema. Cualquier otra tecla para volver al menú principal: ")
+    if opt_alta_profesor == "1":
+        cod_ingresado = input("Por favor ingrese el código admin para darse de alta al sistema: ")
+        cod_ingresado = int(cod_ingresado)
+        cod_admin = Profesor.cod_admin
+        opt = None
+        while True: 
+            if cod_ingresado == cod_admin or opt == cod_admin:
+                print("Código válido.")
+                print("Ingrese los siguientes datos para poder anotarse en el sistema:")
+                nombre = input ("Nombre: ")
+                apellido = input ("Apellido: ")
+                email = input ("Email: ")
+                contraseña = input ("Contraseña: ")
+                título = input ("Título: ")
+                año_egreso = int(input("Año de egreso de la carrera: "))
+                nuevo_profesor = Profesor(nombre, apellido, email, contraseña, título, año_egreso)
+                profesores.append(nuevo_profesor) 
+                print("El usuario fue dado de alta con éxito!")
+                break
+            else:
+                print ("El código admin es incorrecto. Vuelva a ingresarlo o presione 1 si desea volver al menú principal.")
+                opt = input()
+                if opt == "1":
+                    break
+                else:
+                    opt = int(opt)
+                    continue
 
 #submenu alumno
 
@@ -123,8 +154,9 @@ def mostrar_curso_alumno(estudiante):
                         continuar = False
                     else:
                         print("Archivos:")
-                        for archivo in curso.archivos:
-                            print(f"{archivo.get_nombre()}.{archivo.get_formato()} - Fecha de publiación: {archivo.get_fecha()}")
+                        archivos_ordenados = sorted(curso.archivos, key=lambda x: x.get_fecha(), reverse = True)
+                        for archivo in archivos_ordenados:
+                            print(f"{archivo.get_nombre()}.{archivo.get_formato()}")
                             continuar = False
                 else:
                     print("Opción no válida. Por favor, ingrese un número dentro del rango.")
@@ -132,7 +164,6 @@ def mostrar_curso_alumno(estudiante):
                     print("Opción no válida. Ingrese una opción numérica")
 
 #submenu profesor
-
 def dictar_curso(profesor, cursos_disponibles):
     nombre = input ("Ingrese nombre del curso que desea dictar:")
     curso = Curso(nombre, carrera.get_nombre())
@@ -172,7 +203,7 @@ def mostrar_cursos_profesor(profesor):
                     opt_archivos=input("Presione 1 si desea agregar un archivo. Presione cualquier tecla para volver al submenu de profesor: ")
                     if opt_archivos== "1":
                         nombre = input ("Ingrese nombre del archivo que desea agregar: ")
-                        fecha = datetime.now().date()
+                        fecha = datetime.now() #.now() me asigna fecha y hora del archivo subido. Asigna la fecha del día como pide el Tp y agrega la hora para poder ordenarlo, si existieran dos archivos del mismo día.
                         formato = input ("Ingrese el formato del archivo que desea agregar: ")
                         archivo = Archivo(nombre, fecha, formato)
                         curso_elegido.nuevo_archivo(archivo)

@@ -3,6 +3,7 @@ from curso import Curso
 
 
 class Profesor(Usuario):
+    cod_admin = 12345
 
     def __init__(self, nombre: str, apellido: str, email: str, contraseña: str, titulo: str, año_egreso: int) -> None:
         super().__init__(nombre, apellido, email, contraseña)
@@ -54,7 +55,7 @@ class Profesor(Usuario):
         self._carrera_cursos = carrera_cursos
     #str
     def __str__(self) -> str:
-        return f"{self.mis_cursos}"
+        return f"Nombre: {self.get_nombre()}, Apellido: {self.get_apellido()}, Email: {self.get_email()}, Contraseña: {self.get_contraseña()}, Título: {self.get_titulo()}, Año de Egreso: {self.get_año_egreso()}, Cursos: {self.mis_cursos}"
 
     #validar credeciales
     def validar_credenciales(self, contraseña) -> bool:
